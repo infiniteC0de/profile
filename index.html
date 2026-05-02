@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sagar Ghimire — Full-Stack Developer</title>
+<meta name="description" content="Sagar Ghimire — Full-Stack Developer and Security Researcher based in Kathmandu, Nepal. MERN Stack, Ethical Hacking, Penetration Testing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   RESET & VARIABLES
+══════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+:root {
+  --bg:       #080808;
+  --surface:  #0f0f0f;
+  --border:   #1e1e1e;
+  --border2:  #2c2c2c;
+  --txt:      #e8e3dc;
+  --dim:      #5a5550;
+  --mid:      #8a8580;
+  --accent:   #e8ff47;
+  --accent2:  #ff6b35;
+  --cyan:     #38d9c0;
+  --fh: 'Bebas Neue', sans-serif;
+  --fb: 'Outfit', sans-serif;
+  --fm: 'IBM Plex Mono', monospace;
+}
+::selection { background:var(--accent); color:#000; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border2); }
+body { font-family:var(--fb); background:var(--bg); color:var(--txt); overflow-x:hidden; cursor:none; }
+
+/* ══════════════════════════════════════
+   NOISE TEXTURE
+══════════════════════════════════════ */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9990; opacity:.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════════
+   CURSOR
+══════════════════════════════════════ */
+#cd { width:8px; height:8px; background:var(--accent); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .15s,height .15s; mix-blend-mode:difference; }
+#cr { width:32px; height:32px; border:1px solid rgba(232,255,71,.3); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .2s,height .2s,border-color .2s; opacity:.6; }
+.cg #cd { width:18px; height:18px; }
+.cg #cr { width:52px; height:52px; border-color:rgba(232,255,71,.55); }
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 52px; height:60px;
+  border-bottom:1px solid var(--border);
+  background:rgba(8,8,8,.92);
+  backdrop-filter:blur(16px);
+}
+.nav-logo { font-family:var(--fm); font-size:.78rem; color:var(--accent); letter-spacing:.1em; text-decoration:none; }
+.nav-menu { display:flex; gap:40px; list-style:none; }
+.nav-menu a { font-family:var(--fm); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); text-decoration:none; transition:color .2s; }
+.nav-menu a:hover { color:var(--txt); }
+.nav-badge { font-family:var(--fm); font-size:.68rem; color:var(--dim); display:flex; align-items:center; gap:8px; }
+.dot-live { width:6px; height:6px; background:var(--accent); border-radius:50%; animation:blk 2s infinite; }
+@keyframes blk { 0%,100%{opacity:1} 50%{opacity:.25} }
+.ham { display:none; background:none; border:none; color:var(--txt); font-size:1.3rem; cursor:none; padding:4px; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+#home { min-height:100vh; display:grid; grid-template-rows:1fr auto; padding-top:60px; }
+
+.hero-body {
+  display:grid;
+  grid-template-columns:1fr 420px;
+  align-items:center;
+  gap:0;
+  padding:72px 52px;
+}
+
+/* Left text column */
+.hero-content { display:flex; flex-direction:column; justify-content:center; }
+.hero-kicker {
+  font-family:var(--fm); font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:32px; display:flex; align-items:center; gap:14px;
+}
+.hero-kicker::before { content:''; width:28px; height:1px; background:var(--accent); }
+.hero-name { font-family:var(--fh); font-size:clamp(4.5rem,9.5vw,11rem); line-height:.87; letter-spacing:.01em; color:var(--txt); }
+.hero-name .ghost { color:transparent; -webkit-text-stroke:1.5px var(--border2); display:block; transition:-webkit-text-stroke-color .3s; }
+.hero-name .ghost:hover { -webkit-text-stroke-color:var(--mid); }
+.hero-sub { font-size:1rem; font-weight:300; color:var(--mid); max-width:440px; line-height:1.82; margin:36px 0 44px; }
+.hero-sub strong { color:var(--txt); font-weight:500; }
+.hero-actions { display:flex; gap:14px; flex-wrap:wrap; }
+
+/* Buttons */
+.btn-fill {
+  font-family:var(--fm); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  padding:14px 32px; background:var(--accent); color:#000; font-weight:500;
+  text-decoration:none; transition:background .2s,transform .15s; display:inline-block;
+}
+.btn-fill:hover { background:#f5ff6e; transform:translateY(-2px); }
+.btn-ghost {
+  font-family:var(--fm); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  padding:13px 32px; border:1px solid var(--border2); color:var(--mid);
+  text-decoration:none; transition:border-color .2s,color .2s,transform .15s; display:inline-block;
+}
+.btn-ghost:hover { border-color:var(--txt); color:var(--txt); transform:translateY(-2px); }
+
+/* ── Circle Photo Column ── */
+.hero-photo-col {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  padding:20px;
+}
+.photo-outer {
+  position:relative;
+  width:300px; height:300px;
+  display:flex; align-items:center; justify-content:center;
+}
+/* slow spinning dashed ring */
+.photo-outer::before {
+  content:''; position:absolute;
+  inset:-16px; border-radius:50%;
+  border:1.5px dashed rgba(232,255,71,.28);
+  animation:spin 20s linear infinite;
+  pointer-events:none;
+}
+/* static soft ring */
+.photo-outer::after {
+  content:''; position:absolute;
+  inset:-6px; border-radius:50%;
+  border:1px solid rgba(232,255,71,.12);
+  pointer-events:none;
+}
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* glow blob */
+.photo-glow {
+  position:absolute; inset:0; border-radius:50%;
+  background:radial-gradient(circle, rgba(232,255,71,.07) 0%, transparent 68%);
+  pointer-events:none; z-index:0;
+  animation:breathe 4s ease-in-out infinite;
+}
+@keyframes breathe { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+.photo-circle {
+  width:300px; height:300px; border-radius:50%;
+  overflow:hidden;
+  border:3px solid var(--accent);
+  box-shadow: 0 0 0 6px rgba(232,255,71,.07), 0 28px 60px rgba(0,0,0,.65);
+  position:relative; z-index:1;
+  transition:box-shadow .4s, transform .4s;
+  flex-shrink:0;
+}
+.photo-circle:hover {
+  box-shadow: 0 0 0 10px rgba(232,255,71,.14), 0 36px 80px rgba(0,0,0,.7);
+  transform:scale(1.04);
+}
+.photo-circle img {
+  width:100%; height:100%;
+  object-fit:cover; object-position:center 12%;
+  filter:grayscale(15%) contrast(1.06) brightness(.92);
+  display:block; transition:filter .4s;
+}
+.photo-circle:hover img { filter:grayscale(0%) contrast(1.04) brightness(.97); }
+
+.photo-tag {
+  font-family:var(--fm); font-size:.6rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim); text-align:center;
+}
+
+/* ── Hero Bottom Bar ── */
+.hero-bar { border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(4,1fr); }
+.hero-bar-item { padding:22px 52px; border-right:1px solid var(--border); }
+.hero-bar-item:last-child { border-right:none; }
+.bar-label { font-family:var(--fm); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-bottom:5px; }
+.bar-value { font-family:var(--fm); font-size:.78rem; color:var(--mid); }
+.bar-value a { color:var(--mid); text-decoration:none; transition:color .2s; }
+.bar-value a:hover { color:var(--accent); }
+
+/* ══════════════════════════════════════
+   SECTIONS
+══════════════════════════════════════ */
+.sec {
+  padding:100px 52px; border-top:1px solid var(--border);
+  max-width:1440px; margin:0 auto;
+  opacity:0; transform:translateY(30px);
+  transition:opacity .7s, transform .7s;
+}
+.sec.in { opacity:1; transform:translateY(0); }
+.sec-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:60px; gap:32px; }
+.sec-label { font-family:var(--fm); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+.sec-title { font-family:var(--fh); font-size:clamp(3rem,6vw,6rem); line-height:.9; letter-spacing:.02em; color:var(--txt); }
+.sec-rule { flex:1; height:1px; background:var(--border); margin-bottom:4px; max-width:360px; }
+
+/* ══════════════════════════════════════
+   SKILLS
+══════════════════════════════════════ */
+.skill-table { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+.skill-cell { background:var(--bg); padding:36px 40px; transition:background .2s; }
+.skill-cell:hover { background:var(--surface); }
+.cell-cat { font-family:var(--fm); font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+.cell-name { font-size:1rem; font-weight:600; color:var(--txt); margin-bottom:18px; }
+.tags { display:flex; flex-wrap:wrap; gap:8px; }
+.tag { font-family:var(--fm); font-size:.6rem; letter-spacing:.06em; padding:5px 12px; border:1px solid var(--border2); color:var(--dim); transition:border-color .2s,color .2s; }
+.tag:hover { border-color:var(--accent); color:var(--accent); }
+.tag.hi { border-color:var(--border2); color:var(--mid); }
+.tag.hi:hover { border-color:var(--cyan); color:var(--cyan); }
+
+/* ══════════════════════════════════════
+   PROJECTS
+══════════════════════════════════════ */
+.project-list { display:flex; flex-direction:column; }
+.proj {
+  display:grid; grid-template-columns:60px 1fr 160px; gap:40px;
+  padding:44px 0; border-bottom:1px solid var(--border);
+  text-decoration:none; color:inherit; cursor:none; position:relative;
+}
+.proj:first-child { border-top:1px solid var(--border); }
+.proj::before {
+  content:''; position:absolute; left:-52px; right:-52px; top:0; bottom:0;
+  background:var(--surface); opacity:0; transition:opacity .2s; z-index:0;
+}
+.proj:hover::before { opacity:1; }
+.proj > * { position:relative; z-index:1; }
+.proj:hover .proj-name { color:var(--accent); }
+.proj-num { font-family:var(--fm); font-size:.66rem; color:var(--border2); padding-top:5px; }
+.proj-name { font-family:var(--fh); font-size:2.5rem; letter-spacing:.02em; line-height:1; color:var(--txt); margin-bottom:12px; transition:color .2s; }
+.proj-desc { font-size:.88rem; line-height:1.78; color:var(--dim); max-width:580px; margin-bottom:16px; }
+.proj-desc ul { margin-top:8px; padding-left:14px; display:flex; flex-direction:column; gap:3px; }
+.proj-desc li { color:var(--dim); }
+.proj-stack { display:flex; flex-wrap:wrap; gap:7px; }
+.stack-tag { font-family:var(--fm); font-size:.58rem; letter-spacing:.08em; padding:4px 10px; background:var(--surface); border:1px solid var(--border2); color:var(--dim); }
+.proj-right { display:flex; flex-direction:column; align-items:flex-end; justify-content:space-between; padding-top:4px; }
+.proj-type { font-family:var(--fm); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); }
+.proj-link { font-family:var(--fm); font-size:.66rem; color:var(--accent); text-decoration:none; display:flex; align-items:center; gap:6px; transition:gap .2s; }
+.proj-link:hover { gap:10px; }
+.proj-link .arr { font-size:.9rem; transition:transform .2s; }
+.proj-link:hover .arr { transform:translate(2px,-2px); }
+
+/* ══════════════════════════════════════
+   EDUCATION
+══════════════════════════════════════ */
+.edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); }
+.edu-card { background:var(--bg); padding:52px; transition:background .2s; }
+.edu-card:hover { background:var(--surface); }
+.edu-eyebrow { font-family:var(--fm); font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+.edu-eyebrow::before { content:''; width:20px; height:1px; background:var(--accent); }
+.edu-degree { font-family:var(--fh); font-size:2rem; letter-spacing:.02em; color:var(--txt); margin-bottom:10px; line-height:1.1; }
+.edu-school { font-size:.88rem; color:var(--dim); margin-bottom:5px; }
+.edu-year { font-family:var(--fm); font-size:.72rem; color:var(--accent2); }
+.cert-row { display:flex; justify-content:space-between; align-items:flex-start; padding:18px 0; border-bottom:1px solid var(--border); gap:16px; }
+.cert-row:last-child { border-bottom:none; }
+.cert-title { font-size:.93rem; color:var(--txt); font-weight:500; }
+.cert-inst { font-family:var(--fm); font-size:.63rem; color:var(--dim); margin-top:4px; }
+.cert-num { font-family:var(--fm); font-size:.63rem; color:var(--border2); flex-shrink:0; padding-top:3px; }
+
+/* ══════════════════════════════════════
+   CONTACT
+══════════════════════════════════════ */
+#contact { padding:100px 52px 80px; border-top:1px solid var(--border); max-width:1440px; margin:0 auto; }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.contact-big { font-family:var(--fh); font-size:clamp(4rem,10vw,10rem); line-height:.85; letter-spacing:.01em; color:var(--txt); margin-bottom:44px; }
+.contact-big .ol { color:transparent; -webkit-text-stroke:1.5px var(--border2); }
+.contact-note { font-size:.95rem; color:var(--dim); line-height:1.82; max-width:400px; margin-bottom:36px; }
+.contact-email { font-family:var(--fm); font-size:.76rem; color:var(--dim); margin-bottom:32px; padding-bottom:28px; border-bottom:1px solid var(--border); }
+.contact-email a { color:var(--accent); text-decoration:none; transition:opacity .2s; }
+.contact-email a:hover { opacity:.7; }
+.socials { display:flex; flex-direction:column; }
+.soc-row { display:flex; justify-content:space-between; align-items:center; padding:22px 0; border-bottom:1px solid var(--border); text-decoration:none; color:inherit; cursor:none; position:relative; }
+.soc-row:first-child { border-top:1px solid var(--border); }
+.soc-row::after { content:'↗'; position:absolute; right:0; font-size:1rem; color:var(--accent); opacity:0; transform:translateX(-6px); transition:opacity .2s,transform .2s; }
+.soc-row:hover::after { opacity:1; transform:translateX(0); }
+.soc-name { font-family:var(--fh); font-size:1.6rem; letter-spacing:.02em; color:var(--txt); transition:color .2s; }
+.soc-row:hover .soc-name { color:var(--accent); }
+.soc-handle { font-family:var(--fm); font-size:.63rem; color:var(--dim); margin-top:2px; }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer { border-top:1px solid var(--border); padding:22px 52px; display:flex; justify-content:space-between; align-items:center; }
+.ft-l { font-family:var(--fm); font-size:.63rem; color:var(--dim); }
+.ft-r { font-family:var(--fm); font-size:.63rem; color:var(--dim); }
+.ft-r span { color:var(--accent); }
+
+/* ══════════════════════════════════════
+   ENTRY ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.hero-kicker  { animation:fadeUp .6s ease both; }
+.hero-name    { animation:fadeUp .7s .1s ease both; }
+.hero-sub     { animation:fadeUp .7s .22s ease both; }
+.hero-actions { animation:fadeUp .7s .38s ease both; }
+.hero-photo-col { animation:fadeUp .8s .2s ease both; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:1100px) {
+  .hero-body { grid-template-columns:1fr 340px; }
+  .photo-outer { width:260px; height:260px; }
+  .photo-circle { width:260px; height:260px; }
+  .skill-table { grid-template-columns:repeat(2,1fr); }
+}
+@media(max-width:900px) {
+  /* Nav */
+  nav { padding:0 24px; }
+  .nav-menu { display:none; flex-direction:column; position:absolute; top:60px; left:0; right:0; background:rgba(8,8,8,.97); padding:24px; gap:20px; border-bottom:1px solid var(--border); }
+  .nav-menu.open { display:flex; }
+  .nav-badge { display:none; }
+  .ham { display:block; }
+
+  /* Hero */
+  .hero-body {
+    grid-template-columns:1fr;
+    padding:48px 24px 40px;
+    gap:0;
+  }
+  .hero-photo-col {
+    order:-1;
+    margin-bottom:44px;
+  }
+  .photo-outer { width:220px; height:220px; }
+  .photo-circle { width:220px; height:220px; }
+
+  /* Bar */
+  .hero-bar { grid-template-columns:1fr 1fr; }
+  .hero-bar-item { padding:18px 24px; }
+
+  /* Sections */
+  .sec { padding:72px 24px; }
+  .sec-head { flex-direction:column; align-items:flex-start; gap:12px; }
+  .sec-rule { display:none; }
+  .skill-table { grid-template-columns:1fr; }
+  .proj { grid-template-columns:1fr; gap:14px; }
+  .proj::before { left:-24px; right:-24px; }
+  .proj-num { display:none; }
+  .proj-right { flex-direction:row; justify-content:flex-start; gap:20px; align-items:center; }
+  .edu-grid { grid-template-columns:1fr; }
+  .edu-card { padding:36px 28px; }
+  #contact { padding:72px 24px; }
+  .contact-grid { grid-template-columns:1fr; gap:48px; }
+  footer { padding:20px 24px; flex-direction:column; gap:10px; text-align:center; }
+}
+@media(max-width:520px) {
+  .hero-name { font-size:4rem; }
+  .contact-big { font-size:3.8rem; }
+  .hero-bar { grid-template-columns:1fr 1fr; }
+  .photo-outer { width:180px; height:180px; }
+  .photo-circle { width:180px; height:180px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cd"></div>
+<div id="cr"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#home" class="nav-logo">SG — 2025</a>
+  <button class="ham" id="ham" aria-label="Menu">☰</button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#skills"    onclick="closeNav()">Skills</a></li>
+    <li><a href="#projects"  onclick="closeNav()">Projects</a></li>
+    <li><a href="#education" onclick="closeNav()">Education</a></li>
+    <li><a href="#contact"   onclick="closeNav()">Contact</a></li>
+  </ul>
+  <div class="nav-badge"><span class="dot-live"></span>open to work</div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="home">
+  <div class="hero-body">
+
+    <!-- Text -->
+    <div class="hero-content">
+      <div class="hero-kicker">Full-Stack Developer &amp; Security Researcher</div>
+      <h1 class="hero-name">SAGAR<span class="ghost">GHIMIRE</span></h1>
+      <p class="hero-sub">I build <strong>secure, production-ready web apps</strong> with the MERN stack — and test their defences ethically so real attackers never get the chance. Based in Kathmandu, Nepal.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-fill">View My Work</a>
+        <a href="mailto:sagar.code.88@gmail.com" class="btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+
+    <!-- Circle Photo -->
+    <div class="hero-photo-col">
+      <div class="photo-outer">
+        <div class="photo-glow"></div>
+        <div class="photo-circle">
+          <img src="./552707294_819338267298222_8646963405884587945_n.jpg" alt="Sagar Ghimire — Full-Stack Developer">
+        </div>
+      </div>
+      <div class="photo-tag">Kathmandu, Nepal</div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="hero-bar">
+    <div class="hero-bar-item">
+      <div class="bar-label">GitHub</div>
+      <div class="bar-value"><a href="https://github.com/infiniteC0de" target="_blank" rel="noopener">infiniteC0de</a></div>
+    </div>
+    <div class="hero-bar-item">
+      <div class="bar-label">LinkedIn</div>
+      <div class="bar-value"><a href="https://www.linkedin.com/in/sagar-ghimire-191a28345/" target="_blank" rel="noopener">sagar-ghimire</a></div>
+    </div>
+    <div class="hero-bar-item">
+      <div class="bar-label">Email</div>
+      <div class="bar-value"><a href="mailto:sagar.code.88@gmail.com">sagar.code.88@gmail.com</a></div>
+    </div>
+    <div class="hero-bar-item">
+      <div class="bar-label">Location</div>
+      <div class="bar-value">Kathmandu, Nepal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<div class="sec" id="skills">
+  <div class="sec-head">
+    <div>
+      <div class="sec-label">01 — Capabilities</div>
+      <h2 class="sec-title">SKILLS</h2>
+    </div>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="skill-table">
+
+    <div class="skill-cell">
+      <div class="cell-cat">Stack</div>
+      <div class="cell-name">Web Development</div>
+      <div class="tags">
+        <span class="tag hi">MongoDB</span>
+        <span class="tag hi">Express.js</span>
+        <span class="tag hi">React.js</span>
+        <span class="tag hi">Node.js</span>
+        <span class="tag">Core PHP</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">JWT Auth</span>
+        <span class="tag">HTML5 / CSS3</span>
+      </div>
+    </div>
+
+    <div class="skill-cell">
+      <div class="cell-cat">Data</div>
+      <div class="cell-name">Databases</div>
+      <div class="tags">
+        <span class="tag hi">MySQL</span>
+        <span class="tag hi">MongoDB</span>
+        <span class="tag">Schema Design</span>
+        <span class="tag">Query Optimisation</span>
+      </div>
+    </div>
+
+    <div class="skill-cell">
+      <div class="cell-cat">Security Research</div>
+      <div class="cell-name">Ethical Hacking</div>
+      <div class="tags">
+        <span class="tag hi">Penetration Testing</span>
+        <span class="tag hi">Burp Suite</span>
+        <span class="tag hi">Metasploit Framework</span>
+        <span class="tag hi">Wireshark</span>
+        <span class="tag">Nmap</span>
+        <span class="tag">Web App Security</span>
+        <span class="tag">Input Validation Testing</span>
+        <span class="tag">Authentication Testing</span>
+        <span class="tag">Network Traffic Analysis</span>
+        <span class="tag">Wireless Security Auditing</span>
+        <span class="tag">IP &amp; Device Tracing</span>
+        <span class="tag">Kali Linux</span>
+        <span class="tag">Parrot OS</span>
+      </div>
+    </div>
+
+    <div class="skill-cell">
+      <div class="cell-cat">DevOps &amp; Tools</div>
+      <div class="cell-name">Infrastructure</div>
+      <div class="tags">
+        <span class="tag hi">Git / GitHub</span>
+        <span class="tag hi">Linux</span>
+        <span class="tag">Docker (basic)</span>
+        <span class="tag">cPanel</span>
+        <span class="tag">Vercel</span>
+      </div>
+    </div>
+
+    <div class="skill-cell">
+      <div class="cell-cat">Creative</div>
+      <div class="cell-name">Design &amp; Media</div>
+      <div class="tags">
+        <span class="tag">Graphic Editing</span>
+        <span class="tag">Video Editing</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PROJECTS ═══ -->
+<div class="sec" id="projects">
+  <div class="sec-head">
+    <div>
+      <div class="sec-label">02 — Selected Work</div>
+      <h2 class="sec-title">PROJECTS</h2>
+    </div>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="project-list">
+
+    <a class="proj" href="https://github.com/infiniteCodeAura/gadgetloop" target="_blank" rel="noopener">
+      <div class="proj-num">01</div>
+      <div>
+        <div class="proj-name">ADVANCED E-COMMERCE</div>
+        <div class="proj-desc">
+          Full-featured marketplace with role-based access (Buyer / Seller) and tiered plans — Basic, Pro &amp; Ultimate. Built with a security-first architecture throughout.
+          <ul>
+            <li>Rate limiting &amp; traffic filtering to prevent service abuse</li>
+            <li>IP-based anomaly detection with automated login alerts</li>
+            <li>Input sanitisation hardening against injection &amp; cross-site attacks</li>
+            <li>KYC verification flow for enhanced user privacy</li>
+            <li>Cart auto-expiry after 15 days with a reminder email on day 10</li>
+          </ul>
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">MongoDB</span><span class="stack-tag">Express.js</span>
+          <span class="stack-tag">React.js</span><span class="stack-tag">Node.js</span>
+          <span class="stack-tag">JWT</span><span class="stack-tag">Security</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-type">MERN Stack</span>
+        <span class="proj-link">View Backend <span class="arr">↗</span></span>
+      </div>
+    </a>
+
+    <a class="proj" href="https://qrmaster-pro.com" target="_blank" rel="noopener">
+      <div class="proj-num">02</div>
+      <div>
+        <div class="proj-name">QR MASTER PRO</div>
+        <div class="proj-desc">
+          Customisable QR code generator with advanced styling options — custom colours, logo overlays and multiple export formats. Built with pure JavaScript and the HTML5 Canvas API, zero dependencies.
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">JavaScript</span><span class="stack-tag">HTML5 Canvas</span><span class="stack-tag">QR API</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-type">Live Project</span>
+        <span class="proj-link">Visit Site <span class="arr">↗</span></span>
+      </div>
+    </a>
+
+    <div class="proj" style="cursor:default;">
+      <div class="proj-num">03</div>
+      <div>
+        <div class="proj-name">TO-DO APPLICATION</div>
+        <div class="proj-desc">
+          Task management system with full CRUD operations, JWT-based authentication, real-time status updates and deadline tracking. Data persisted in MongoDB.
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">React.js</span><span class="stack-tag">Node.js</span><span class="stack-tag">MongoDB</span><span class="stack-tag">JWT</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-type">Web App</span>
+      </div>
+    </div>
+
+    <a class="proj" href="https://github.com/infiniteCodeAura/webSearch" target="_blank" rel="noopener">
+      <div class="proj-num">04</div>
+      <div>
+        <div class="proj-name">VOICE ASSISTANT</div>
+        <div class="proj-desc">
+          Voice-controlled assistant using the Web Speech API for real-time voice-to-text input. Connects to backend APIs and returns context-aware, spoken responses with minimal latency.
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">React.js</span><span class="stack-tag">Node.js</span><span class="stack-tag">Web Speech API</span><span class="stack-tag">AI</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-type">Web App</span>
+        <span class="proj-link">View <span class="arr">↗</span></span>
+      </div>
+    </a>
+
+    <a class="proj" href="https://github.com/infiniteCodeAura/webSearch" target="_blank" rel="noopener">
+      <div class="proj-num">05</div>
+      <div>
+        <div class="proj-name">FLIRT LINE GENERATOR</div>
+        <div class="proj-desc">
+          Fun app generating unique creative one-liners with randomised categories. Scalable Node.js backend handles API responses and dynamic phrase generation logic.
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">React.js</span><span class="stack-tag">Node.js</span><span class="stack-tag">Express</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-type">Fun Project</span>
+        <span class="proj-link">View <span class="arr">↗</span></span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ═══ EDUCATION ═══ -->
+<div class="sec" id="education">
+  <div class="sec-head">
+    <div>
+      <div class="sec-label">03 — Background</div>
+      <h2 class="sec-title">EDUCATION</h2>
+    </div>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-eyebrow">Degree</div>
+      <div class="edu-degree">Bachelor's in Information Technology</div>
+      <div class="edu-school">Lalitpur, Nepal</div>
+      <div class="edu-year">Expected 2026 — Ongoing</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-eyebrow">Certifications</div>
+      <div class="cert-row">
+        <div><div class="cert-title">MERN Stack Development</div><div class="cert-inst">Broadway Infosys Institute</div></div>
+        <div class="cert-num">01</div>
+      </div>
+      <div class="cert-row">
+        <div><div class="cert-title">Cybersecurity &amp; Ethical Hacking</div><div class="cert-inst">CodeIT Nepal</div></div>
+        <div class="cert-num">02</div>
+      </div>
+      <div class="cert-row">
+        <div><div class="cert-title">PHP Web Development</div><div class="cert-inst">Kantipur Institute</div></div>
+        <div class="cert-num">03</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="sec-label" style="margin-bottom:20px;">04 — Let's Talk</div>
+      <div class="contact-big">LET'S<br><span class="ol">BUILD</span><br>THINGS</div>
+      <p class="contact-note">Whether it's a new product, a security audit, or just a conversation about tech — I'm always open. Reach out and let's figure it out.</p>
+      <div class="contact-email">Direct email →&nbsp;<a href="mailto:sagar.code.88@gmail.com">sagar.code.88@gmail.com</a></div>
+      <a href="mailto:sagar.code.88@gmail.com" class="btn-fill">Send a Message</a>
+    </div>
+    <div>
+      <div class="socials">
+        <a href="https://github.com/infiniteC0de" target="_blank" rel="noopener" class="soc-row">
+          <div><div class="soc-name">GitHub</div><div class="soc-handle">github.com/infiniteC0de</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/sagar-ghimire-191a28345/" target="_blank" rel="noopener" class="soc-row">
+          <div><div class="soc-name">LinkedIn</div><div class="soc-handle">sagar-ghimire-191a28345</div></div>
+        </a>
+        <a href="https://infinitecodeaura.github.io/portfolio/" target="_blank" rel="noopener" class="soc-row">
+          <div><div class="soc-name">Portfolio</div><div class="soc-handle">infinitecodeaura.github.io/portfolio</div></div>
+        </a>
+        <a href="https://qrmaster-pro.com" target="_blank" rel="noopener" class="soc-row">
+          <div><div class="soc-name">QR Master Pro</div><div class="soc-handle">qrmaster-pro.com</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-l">© 2025 Sagar Ghimire. All rights reserved.</div>
+  <div class="ft-r">Made in <span>Kathmandu</span></div>
+</footer>
+
+<script>
+/* ── Custom Cursor ── */
+const cd = document.getElementById('cd');
+const cr = document.getElementById('cr');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function tick(){
+  cd.style.left = mx+'px'; cd.style.top = my+'px';
+  rx += (mx-rx)*.12; ry += (my-ry)*.12;
+  cr.style.left = rx+'px'; cr.style.top = ry+'px';
+  requestAnimationFrame(tick);
+})();
+document.querySelectorAll('a, button, .skill-cell, .proj, .soc-row, .tag, .photo-circle').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cg'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cg'));
+});
+
+/* ── Scroll Reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: .08, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.sec').forEach(s => obs.observe(s));
+
+/* ── Mobile Nav ── */
+document.getElementById('ham').addEventListener('click', () => {
+  document.getElementById('navMenu').classList.toggle('open');
+});
+function closeNav() { document.getElementById('navMenu').classList.remove('open'); }
+</script>
+</body>
+</html>
